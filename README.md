@@ -30,7 +30,11 @@ For migrations, we need to add them initially and update or re-add them each tim
 ### Local
 The project supports being run as a container and is in fact indended to. In order to run this service locally, simply run `docker-compose up` in the directory where the `docker-compose.yml` file resides. The service will now run on port 8083:HTTPS, 8082:HTTP.
 ### Docker Hub
-Automated builds are set up for Docker Hub. To use this service without the source code running, use `docker pull frostauraconsolidated/idenitity` or visit https://hub.docker.com/repository/docker/frostauraconsolidated/idenitity..
+Automated builds are set up for Docker Hub. To use this service without the source code running, use 
+- `docker pull frostauraconsolidated/idenitity` or 
+- Visit https://hub.docker.com/repository/docker/frostauraconsolidated/idenitity.
+
+After the service is running, you can connect another application to it via openid or simply confirm that the service is running correctly by navigating to https://localhost:8083/.well-known/openid-configuration.
 #### Docker Compose Example
     version: "3"
         services:
