@@ -30,7 +30,30 @@ For migrations, we need to add them initially and update or re-add them each tim
 ### Local
 The project supports being run as a container and is in fact indended to. In order to run this service locally, simply run `docker-compose up` in the directory where the `docker-compose.yml` file resides. The service will now run on port 8083:HTTPS, 8082:HTTP.
 ### Docker Hub
-Automated builds are set up for Docker Hub. To use this service without the source code running, use `docker pull frostauraconsolidated/idenitity`.
+Automated builds are set up for Docker Hub. To use this service without the source code running, use `docker pull frostauraconsolidated/idenitity` or visit https://hub.docker.com/repository/docker/frostauraconsolidated/idenitity..
+#### Docker Compose Example
+    version: "3"
+        services:
+            db:
+                image: "mcr.microsoft.com/mssql/server"
+                environment:
+                    - SA_PASSWORD=Password1234
+                    - ACCEPT_EULA=Y
+                ports:
+                    - 1433:1433
+            web:
+                image: "frostauraconsolidated/idenitity"
+                ports:
+                    - 8082:80
+                    - 8083:443
+                depends_on:
+                    - db
+                environment:
+                    - ASPNETCORE_URLS=https://+:443;http://+:80
+                    - ASPNETCORE_Kestrel__Certificates__Default__Password=Password1234
+                    - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+                volumes:
+                    - ./.aspnet/https:/https:ro
 
 ## How To
 ### Getting Familiar

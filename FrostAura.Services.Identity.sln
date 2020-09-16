@@ -16,6 +16,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{7BDA7C
 		.dockerignore = .dockerignore
 		docker-compose.yml = docker-compose.yml
 		Dockerfile = Dockerfile
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrostAura.Services.Idenitity.Api.Tests", "FrostAura.Services.Idenitity.Api.Tests\FrostAura.Services.Idenitity.Api.Tests.csproj", "{7E96C178-1F51-4C5D-8503-5757D7F1F7D8}"
