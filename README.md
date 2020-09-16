@@ -35,6 +35,12 @@ Automated builds are set up for Docker Hub. To use this service without the sour
 - Visit https://hub.docker.com/repository/docker/frostauraconsolidated/idenitity.
 
 After the service is running, you can connect another application to it via openid or simply confirm that the service is running correctly by navigating to https://localhost:8083/.well-known/openid-configuration.
+
+NOTE: For the container to work (HTTPS) by itself, we will require a valid SSL cert. You can simply create a dev self-signed cert using dotnet CLI, after which we can map it to the container. See below for local / development. For production you should have a valid cert. See https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-3.1 for more.
+
+    dotnet dev-certs https –clean
+    dotnet dev-certs https -ep %USERPROFILE%\.aspnet\https\aspnetapp.pfx -p Password1234
+    dotnet dev-certs https --trust
 #### Docker Compose Example
     version: "3"
         services:
@@ -57,7 +63,7 @@ After the service is running, you can connect another application to it via open
                     - ASPNETCORE_Kestrel__Certificates__Default__Password=Password1234
                     - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
                 volumes:
-                    - ./.aspnet/https:/https:ro
+                    - ~/.aspnet/https:/https:ro
 
 ## How To
 ### Getting Familiar
