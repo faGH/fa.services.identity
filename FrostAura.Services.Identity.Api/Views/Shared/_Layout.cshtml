@@ -1,0 +1,39 @@
+﻿@model LoginViewModel
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>FrostAura Identity - @ViewBag.Title</title>
+
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Google+Sans:400,500,700">
+    <link rel="stylesheet" asp-append-version="true" href="~/css/layout.css" />
+
+    <meta name="viewport" content="width=device-width" />
+    <meta name="Description" content="FrostAura identity as a service platform.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="theme-color" content="#007c9b">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="x-ua-compatible" content="IE=Edge">
+
+    @{
+        if(!string.IsNullOrWhiteSpace(Model.ClientCustomStyleSheetUrl))
+        {
+            <link rel="stylesheet" href="@Model.ClientCustomStyleSheetUrl" />
+        }
+     }
+</head>
+<body>
+    <header>
+        <object id="logo" type="image/svg+xml" data="@Model.ClientIcon"></object>
+        <div id="descriptor">
+            <div>@Model.ClientName</div>
+        </div>
+        <footer>FrostAura Consolidated | 2020-2022</footer>
+    </header>
+    <article>
+        <h1>@ViewBag.Title</h1>
+        @RenderBody()
+    </article>
+</body>
+</html>

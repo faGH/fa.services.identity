@@ -1,0 +1,32 @@
+﻿@model FrostAura.Services.Identity.Models.RegistrationViewModel
+@{
+    var routeData = new Dictionary<string, string>
+{
+        {"ReturnUrl", Model.ReturnUrl}
+    };
+
+    ViewBag.Title = "New Account";
+    Layout = "_Layout";
+}
+
+<form asp-controller="Auth" asp-action="Register" method="post">
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div>
+        <input asp-for="Email" type="email" placeholder="Email" title="New account's email address."  />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <input asp-for="Password" type="password" placeholder="Password" title="New account's password."  />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <input asp-for="ConfirmPassword" placeholder="Confirm Password"  title="New account's password confirmation." />
+        <span asp-validation-for="ConfirmPassword"></span>
+    </div>
+    <div class="button-container margin-top">
+        <button type="submit"  title="Create a new account with the specified credentials.">Register</button>
+    </div>
+    <div class="button-container">
+        <a asp-controller="Auth" asp-action="Login" asp-all-route-data="routeData"  title="Proceed to the sign in flow to use an existing ccount.">Already Have an Account</a>
+    </div>
+</form>

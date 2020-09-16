@@ -1,0 +1,28 @@
+﻿@model LoginViewModel
+@{
+    var routeData = new Dictionary<string, string>
+{
+        {"ReturnUrl", Model.ReturnUrl}
+    };
+
+    ViewBag.Title = "Sign In";
+    Layout = "_Layout";
+}
+
+<form asp-controller="Auth" asp-action="Login" method="post">
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div>
+        <input asp-for="Email" type="email" placeholder="Email" title="Existing account's email address." />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <input asp-for="Password" type="password" placeholder="Password"  title="Existing account's password." />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div class="button-container margin-top">
+        <button type="submit" title="Sign in using the specified credentials.">Sign In</button>
+    </div>
+    <div class="button-container">
+        <a asp-controller="Auth" asp-action="Register" asp-all-route-data="routeData" title="Proceed to creating a new account.">Create New Account</a>
+    </div>
+</form>

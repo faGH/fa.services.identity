@@ -1,0 +1,57 @@
+﻿body > header {
+    background-color: rgb(255,255,255);
+}
+
+body > header {
+    color: rgb(15,80,150);
+}
+
+body #descriptor{
+    display: none;
+}
+
+/*
+* See https://codepen.io/sosuke/pen/Pjoqqp for more filter calculations.
+*/
+body #logo {
+    width: 256px;
+    height: 256px;
+    filter: unset;
+}
+
+body form > div input.input-validation-error {
+    color: rgb(215,40,40);;
+    border-bottom: 2px solid rgb(215,40,40);;
+}
+
+body form > div input {
+    border-bottom: 2px solid rgb(255,255,255);
+}
+
+body form > div input,
+body form > div input::placeholder {
+    color: rgb(255,255,255);
+}
+
+body form > div input:active,
+body form > div input:focus {
+    color: rgb(255,255,255);
+    border-bottom: 2px solid rgb(255,255,255);
+}
+
+body form .button-container > *,
+body > article {
+    color: rgb(255,255,255);
+    background-color: rgb(15,80,150);
+}
+
+@media only screen and (max-width: 700px) {
+    body footer {
+        color: rgb(255,255,255);
+    }
+
+    body #logo{
+        width: 156px;
+        height: 156px;
+    }
+}
