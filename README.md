@@ -4,7 +4,7 @@ FrostAura identity-as-a-service platform.
 ## Status
 | Project | Build | Test Coverage
 | --- | --- | --- |
-| FrostAura.Services.Idenity | ![TravisCI](https://travis-ci.org/faGH/fa.services.identity.svg?branch=master) | PENDING |
+| FrostAura.Services.Identity | ![TravisCI](https://travis-ci.org/faGH/fa.services.identity.svg?branch=master) | PENDING |
 ## Supported Auth Flows
 - API resources (Web services etc).
 - Client resources (Native clients, HTML5 clients, etc).
