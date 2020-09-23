@@ -22,7 +22,7 @@ namespace FrostAura.Services.Identity.Data.Factories.DesignTime
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.Migrations.json")
+                .AddJsonFile("appsettings.Development.json")
                 .Build();
             var builder = new DbContextOptionsBuilder<IdentityServer4.EntityFramework.DbContexts.ConfigurationDbContext>();
             var connectionString = configuration

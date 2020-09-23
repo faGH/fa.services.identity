@@ -15,7 +15,9 @@ For migrations, we need to add them initially and update or re-add them each tim
 ### Lessons Learnt
 - In order to create migrations, the DB context has to either
     - Have a default constructor.
-    - Have a IDesignTimeDbContextFactory implementation. - This allows for providing the args to the overloaded constructor during design-time as there is no DI available during that time. 
+    - Have a IDesignTimeDbContextFactory implementation. - This allows for providing the args to the overloaded constructor during design-time as there is no DI available during that time.
+    - Migration library has to be a core library and not a standard library.
+    - Migration project has to reference 'Microsoft.EntityFrameworkCore.Tools'.
 
 ### Re-create Migrations (Package-Manager Console)
 > dotnet tool install --global dotnet-ef
