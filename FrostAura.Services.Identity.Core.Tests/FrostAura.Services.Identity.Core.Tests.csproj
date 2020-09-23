@@ -8,13 +8,19 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="NSubstitute" Version="4.2.2" />
     <PackageReference Include="xunit" Version="2.4.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
     <PackageReference Include="coverlet.collector" Version="1.2.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FrostAura.Services.Identity.Api\FrostAura.Services.Identity.Api.csproj" />
+    <ProjectReference Include="..\FrostAura.Services.Identity.Core\FrostAura.Services.Identity.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Engines\" />
+    <Folder Include="Managers\" />
   </ItemGroup>
 
 </Project>

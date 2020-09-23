@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FrostAura.Services.Identity.Core\FrostAura.Services.Identity.Core.csproj" />
     <ProjectReference Include="..\FrostAura.Services.Identity.Data\FrostAura.Services.Identity.Data.csproj" />
   </ItemGroup>
 
