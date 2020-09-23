@@ -6,5 +6,5 @@ dist: xenial
 script:
   - dotnet restore
   - dotnet build
-  - dotnet test ./FrostAura.Services.Identity.Api.Tests/
+  - dotnet test ./FrostAura.Services.Identity.Core.Tests/
   - dotnet test ./FrostAura.Services.Identity.Data.Tests/
