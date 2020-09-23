@@ -38,7 +38,7 @@ After the service is running, you can connect another application to it via open
 
 NOTE: For the container to work (HTTPS) by itself, we will require a valid SSL cert. You can simply create a dev self-signed cert using dotnet CLI, after which we can map it to the container. See below for local / development. For production you should have a valid cert. See https://docs.microsoft.com/en-us/aspnet/core/security/docker-compose-https?view=aspnetcore-3.1 for more.
 
-    dotnet dev-certs https –clean
+    dotnet dev-certs https --clean
     dotnet dev-certs https -ep %USERPROFILE%\.aspnet\https\aspnetapp.pfx -p Password1234
     dotnet dev-certs https --trust
 #### Docker Compose Example
