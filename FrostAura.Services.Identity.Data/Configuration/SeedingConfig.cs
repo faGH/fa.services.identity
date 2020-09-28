@@ -43,7 +43,7 @@ namespace FrostAura.Services.Identity.Api.Configuration
             return new List<ApiScope>
             {
                 // Basic connection scope.
-                new ApiScope(Scopes.FA_ALLOW_CONNECTION, "Basic accessor to allow for connecting to a resource or API.")
+                new ApiScope("frostaura.scopes.default", "Default FrostAura API scope.")
             };
         }
 
@@ -64,9 +64,9 @@ namespace FrostAura.Services.Identity.Api.Configuration
                     UserClaims = new List<string>
                     {
                         ClaimTypes.Name,
-                        ClaimTypes.GivenName,
                         ClaimTypes.Email,
-                        Scopes.FA_ALLOW_CONNECTION
+                        ClaimTypes.Surname,
+                        JwtClaimTypes.Picture
                     }
                 }
             };

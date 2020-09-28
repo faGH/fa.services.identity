@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -28,9 +29,12 @@ namespace FrostAura.Services.Identity.Core.Managers
         {
             var result = await base.GenerateClaimsAsync(user);
 
+            // Add all FrostAura expected claims.
             result.AddClaim(new Claim(ClaimTypes.Name, user.Email));
             result.AddClaim(new Claim(ClaimTypes.GivenName, user.Email));
             result.AddClaim(new Claim(ClaimTypes.Email, user.Email));
+            result.AddClaim(new Claim(ClaimTypes.Surname, user.Email));
+            result.AddClaim(new Claim(JwtClaimTypes.Picture, "https://placehold.it/256x256"));
 
             return result;
         }

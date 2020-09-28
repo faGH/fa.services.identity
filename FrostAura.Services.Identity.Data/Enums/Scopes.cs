@@ -3,11 +3,7 @@
     /// <summary>
     /// Collection of custom scopes.
     /// </summary>
-    public class Scopes
+    public class FrostAuraClaims
     {
-        /// <summary>
-        /// Basic access to all APIs.
-        /// </summary>
-        public const string FA_ALLOW_CONNECTION = "FrostAura.AllowConnection";
     }
 }
