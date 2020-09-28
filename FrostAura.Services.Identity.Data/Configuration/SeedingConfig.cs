@@ -3,6 +3,7 @@ using IdentityModel;
 using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace FrostAura.Services.Identity.Api.Configuration
 {
@@ -25,7 +26,10 @@ namespace FrostAura.Services.Identity.Api.Configuration
                 // Integration test API resource. We need this since this API speaks to itself (pretends to be another API and so requires auth).
                 new ApiResource("FrostAura.Services.Identity.Tests.Integration")
                 {
-                    Scopes = new List<string> { Scopes.FA_ALLOW_CONNECTION }
+                    Scopes = new List<string>
+                    {
+                        "frostaura.scopes.default"
+                    }
                 }
             };
         }
@@ -54,11 +58,17 @@ namespace FrostAura.Services.Identity.Api.Configuration
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
-                /*new IdentityResource
+                new IdentityResource
                 {
-                    Name = "frostaura",
-                    UserClaims = new List<string> { ClaimKeys.FA_CLIENT_CUSTOM_CSS_URL, ClaimKeys.FA_CLIENT_CUSTOM_LOGO_SVG_URL }
-                }*/
+                    Name = "frostaura.scopes.default",
+                    UserClaims = new List<string>
+                    {
+                        ClaimTypes.Name,
+                        ClaimTypes.GivenName,
+                        ClaimTypes.Email,
+                        Scopes.FA_ALLOW_CONNECTION
+                    }
+                }
             };
         }
 
@@ -76,7 +86,10 @@ namespace FrostAura.Services.Identity.Api.Configuration
                     ClientId = "FrostAura.Services.Identity.Api.Tests.Integration",
                     ClientSecrets = { new Secret("Password1234$".ToSha256()) },
                     AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    AllowedScopes = { Scopes.FA_ALLOW_CONNECTION },
+                    AllowedScopes =
+                    {
+                        "frostaura.scopes.default"
+                    },
                     RequireConsent = false
                 },
                 // Auth flow test client to allow that app to sign in using the OpenIdConnect / OAuth2 flow.
@@ -87,7 +100,7 @@ namespace FrostAura.Services.Identity.Api.Configuration
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes =
                     {
-                        Scopes.FA_ALLOW_CONNECTION,
+                        "frostaura.scopes.default",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile
                     },
@@ -98,7 +111,31 @@ namespace FrostAura.Services.Identity.Api.Configuration
                         new ClientClaim(ClaimKeys.FA_CLIENT_NAME, "Auth Flow Demo App")
                     },
                     RedirectUris = new []{ "https://localhost:5006/signin-oidc" },
-                    RequireConsent = false
+                    RequireConsent = false,
+                    AlwaysIncludeUserClaimsInIdToken = true
+                },
+                // PivotPro client to allow that app to sign in using the OpenIdConnect / OAuth2 flow.
+                new Client
+                {
+                    ClientId = "FrostAura.Clients.PivotPro",
+                    ClientSecrets = { new Secret("P$v0tPR0iS@we40m3".ToSha256()) },
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedScopes =
+                    {
+                        "frostaura.scopes.default",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email
+                    },
+                    Claims = new List<ClientClaim>
+                    {
+                        new ClientClaim(ClaimKeys.FA_CLIENT_CUSTOM_CSS_URL, "/css/layout.custom.demo.css"),
+                        new ClientClaim(ClaimKeys.FA_CLIENT_CUSTOM_LOGO_SVG_URL, "https://freepik.cdnpk.net/img/avatars/01.svg"),
+                        new ClientClaim(ClaimKeys.FA_CLIENT_NAME, "PivotPro")
+                    },
+                    RedirectUris = new []{ "https://localhost:5001/signin-oidc" },
+                    RequireConsent = false,
+                    AlwaysIncludeUserClaimsInIdToken = true
                 },
                 // Auth flow Northwood Crusaders client to allow that app to sign in using the OpenIdConnect / OAuth2 flow.
                 new Client
@@ -108,9 +145,10 @@ namespace FrostAura.Services.Identity.Api.Configuration
                     AllowedGrantTypes = GrantTypes.Code,
                     AllowedScopes =
                     {
-                        Scopes.FA_ALLOW_CONNECTION,
+                        "frostaura.scopes.default",
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email
                     },
                     Claims = new List<ClientClaim>
                     {
@@ -119,7 +157,8 @@ namespace FrostAura.Services.Identity.Api.Configuration
                         new ClientClaim(ClaimKeys.FA_CLIENT_NAME, "Northwood Crusaders")
                     },
                     RedirectUris = new []{ "https://localhost:5006/signin-oidc" },
-                    RequireConsent = false
+                    RequireConsent = false,
+                    AlwaysIncludeUserClaimsInIdToken = true
                 }
             };
         }

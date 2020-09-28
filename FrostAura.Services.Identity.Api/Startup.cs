@@ -1,5 +1,6 @@
 using FrostAura.Libraries.Core.Extensions.Validation;
-using FrostAura.Services.Identity.Api.Configuration;
+using FrostAura.Services.Identity.Core.Extensions;
+using FrostAura.Services.Identity.Core.Managers;
 using FrostAura.Services.Identity.Data;
 using FrostAura.Services.Identity.Data.Configuration;
 using FrostAura.Services.Identity.Data.Extensions;
@@ -11,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 using System.Reflection;
 
 namespace FrostAura.Services.Identity.Api
@@ -55,6 +58,7 @@ namespace FrostAura.Services.Identity.Api
             _logger?.LogDebug($"Configuration DB connection: '{configDbConnectionString}'");
 
             services.Configure<Data.Models.IdentityOptions>(identitySection);
+            services.AddFrostAuraCore();
             services.AddDbContext<Data.IdentityDbContext>(config =>
             {
                 config.UseSqlServer(identityDbConnectionString);
@@ -69,6 +73,7 @@ namespace FrostAura.Services.Identity.Api
             });
             services
                 .AddIdentity<IdentityUser, IdentityRole>(config => IdentityConfig.ConfigureIdentityOptions(config, identityOptions))
+                .AddClaimsPrincipalFactory<ClaimsPrincipalManager>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(config => IdentityConfig.ConfigureCookieOptions(config, identityOptions));
@@ -85,6 +90,10 @@ namespace FrostAura.Services.Identity.Api
                     options.EnableTokenCleanup = true;
                 })
                 .AddDeveloperSigningCredential();
+            services.AddMailKit(options => 
+            {
+                options.UseMailKit(_configuration.GetSection("FrostAura:Email").Get<MailKitOptions>());
+            });
             services.AddControllersWithViews();
         }
 
@@ -100,7 +109,7 @@ namespace FrostAura.Services.Identity.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            app.InitializeDatabases<Startup>();
+            app.UseFrostAuraResources<Startup>();
             app.UseRouting();
             app.UseIdentityServer();
             app.UseStaticFiles();

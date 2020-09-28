@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Security.Claims;
 
 namespace FrostAura.Services.Identity.Api.Tests.AuthFlow
 {
@@ -28,11 +31,23 @@ namespace FrostAura.Services.Identity.Api.Tests.AuthFlow
                 .AddCookie("Cookie")
                 .AddOpenIdConnect("oidc", config => 
                 {
-                    config.Authority = "https://localhost:8083";
-                    config.ClientId = "FrostAura.Clients.NorthwoodCrusaders";//"FrostAura.Services.Identity.Api.Tests.AuthFlow";
-                    config.ClientSecret = "NorthwoodIsAwesome";//"Password1234$";
+                    config.Authority = "https://localhost:5001";
+                    config.ClientId = "FrostAura.Services.Identity.Api.Tests.AuthFlow";
+                    config.ClientSecret = "Password1234$";
                     config.SaveTokens = true;
                     config.ResponseType = "code";
+                    config.Scope.Add("frostaura.scopes.default");
+                    // This is how the app will retrieve the custom claims for the user if AlwaysIncludeUserClaimsInIdToken = false.  
+                    //config.GetClaimsFromUserInfoEndpoint = true;
+                    // Configure cookie claims mapping to get custom scope claims to come through. This applies when using a federated gateway too.
+                    //config.ClaimActions.MapUniqueJsonKey("", "");
+                });
+            services
+                .AddAuthorization(config => 
+                {
+                    config.AddPolicy("ClaimType.Name", builder => builder
+                        .RequireAuthenticatedUser()
+                        .RequireClaim(ClaimTypes.Name));
                 });
         }
 

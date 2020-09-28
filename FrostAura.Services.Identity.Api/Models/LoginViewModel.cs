@@ -1,7 +1,6 @@
 ﻿using FrostAura.Services.Identity.Data.Enums;
 using IdentityServer4.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 

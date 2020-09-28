@@ -24,7 +24,7 @@ namespace FrostAura.Services.Identity.Data.Extensions
         /// </summary>
         /// <param name="app">Application builder.</param>
         /// <returns>Application builder.</returns>
-        public static IApplicationBuilder InitializeDatabases<TCaller>(this IApplicationBuilder app)
+        public static IApplicationBuilder UseFrostAuraResources<TCaller>(this IApplicationBuilder app)
         {
             var RESILIENT_ALLOWED_ATTEMPTS = 3;
             var RESILIENT_BACKOFF = TimeSpan.FromSeconds(5);
@@ -52,7 +52,7 @@ namespace FrostAura.Services.Identity.Data.Extensions
         /// </summary>
         /// <param name="app">Application builder.</param>
         /// <returns>Application builder.</returns>
-        public static async Task<IApplicationBuilder> InitializeDatabasesAsync<TCaller>(this IApplicationBuilder app)
+        private static async Task<IApplicationBuilder> InitializeDatabasesAsync<TCaller>(this IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
@@ -136,7 +136,8 @@ namespace FrostAura.Services.Identity.Data.Extensions
                                 Value = c.Value
                             })
                             .ToList(),
-                        RequireConsent = seedClient.RequireConsent
+                        RequireConsent = seedClient.RequireConsent,
+                        AlwaysIncludeUserClaimsInIdToken = seedClient.AlwaysIncludeUserClaimsInIdToken
                     });
                 }
 
@@ -232,7 +233,6 @@ namespace FrostAura.Services.Identity.Data.Extensions
 
             return app;
         }
-
 
         /// <summary>
         /// Seed the identity database.

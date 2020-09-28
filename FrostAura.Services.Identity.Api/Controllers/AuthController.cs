@@ -2,6 +2,8 @@
 using FrostAura.Services.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using NETCore.MailKit.Core;
+using System;
 using System.Threading.Tasks;
 
 namespace FrostAura.Services.Identity.Api.Controllers
@@ -23,17 +25,24 @@ namespace FrostAura.Services.Identity.Api.Controllers
         /// Config DB.
         /// </summary>
         private readonly Data.ConfigurationDbContext _configDb;
+        /// <summary>
+        /// Email service provider.
+        /// </summary>
+        private readonly IEmailService _emailService;
 
         /// <summary>
         /// Constructor to allow for injecting variables.
         /// </summary>
         /// <param name="signInManager">Identity sign in manager.</param>
         /// <param name="userManager">Identity user manager.</param>
-        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, Data.ConfigurationDbContext configDb)
+        /// <param name="configDb">Configuration db.</param>
+        /// <param name="emailService">Email service provider.</param>
+        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, Data.ConfigurationDbContext configDb, IEmailService emailService)
         {
             _signInManager = signInManager.ThrowIfNull(nameof(signInManager));
             _userManager = userManager.ThrowIfNull(nameof(userManager));
             _configDb = configDb.ThrowIfNull(nameof(configDb));
+            _emailService = emailService.ThrowIfNull(nameof(emailService));
         }
 
         /// <summary>
@@ -61,14 +70,54 @@ namespace FrostAura.Services.Identity.Api.Controllers
 
             if (!ModelState.IsValid) return View(request);
 
-            var response = await _signInManager.PasswordSignInAsync(request.Email, request.Password, false, false);
+            var user = await _userManager.FindByNameAsync(request.Email);
 
-            if (response.Succeeded)
+            if (user != default)
             {
-                return Redirect(request.ReturnUrl);
+                #region Confirmation & Reset
+
+                if (!user.EmailConfirmed)
+                {
+                    // Same for password reset.
+                    var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var redirectUrl = Url.Action(nameof(VerifyEmail), "Auth", new { userId = user.Id, token = emailConfirmationToken, returnUrl = request.ReturnUrl }, Request.Scheme);
+
+                    await _emailService.SendAsync("deanmar@outlook.com", "Confirm Account Email", $"<a href='{redirectUrl}'>Confirm Email</a>", isHtml: true);
+
+                    // TODO: Replace with a view.
+                    return Ok("Email verification email sent!");
+                }
+
+                #endregion
+
+                var response = await _signInManager.PasswordSignInAsync(request.Email, request.Password, false, false);
+
+                if (response.Succeeded)
+                {
+                    return Redirect(request.ReturnUrl);
+                }
             }
 
             return View(request);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> VerifyEmail(string userId, string token, string returnUrl)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == default) return BadRequest();
+
+            var confirmationResult = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (confirmationResult.Succeeded)
+            {
+                await _signInManager.SignInAsync(user, false);
+
+                return Redirect(returnUrl);
+            }
+
+            throw new NotImplementedException();
         }
 
         [HttpGet]
