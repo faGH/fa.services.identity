@@ -28,7 +28,7 @@ namespace FrostAura.Services.Identity.Api.Configuration
                 {
                     Scopes = new List<string>
                     {
-                        "frostaura.scopes.default"
+                        "frostaura.scopes.api.devices"
                     }
                 }
             };
@@ -43,7 +43,7 @@ namespace FrostAura.Services.Identity.Api.Configuration
             return new List<ApiScope>
             {
                 // Basic connection scope.
-                new ApiScope("frostaura.scopes.default", "Default FrostAura API scope.")
+                new ApiScope("frostaura.scopes.api.devices", "Default FrostAura devices API scope.")
             };
         }
 
@@ -123,14 +123,15 @@ namespace FrostAura.Services.Identity.Api.Configuration
                     AllowedScopes =
                     {
                         "frostaura.scopes.default",
+                        "frostaura.scopes.api.devices",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email
                     },
                     Claims = new List<ClientClaim>
                     {
-                        new ClientClaim(ClaimKeys.FA_CLIENT_CUSTOM_CSS_URL, "/css/layout.custom.demo.css"),
-                        new ClientClaim(ClaimKeys.FA_CLIENT_CUSTOM_LOGO_SVG_URL, "https://freepik.cdnpk.net/img/avatars/01.svg"),
+                        new ClientClaim(ClaimKeys.FA_CLIENT_CUSTOM_CSS_URL, "/css/layout.custom.pivotpro.css"),
+                        new ClientClaim(ClaimKeys.FA_CLIENT_CUSTOM_LOGO_SVG_URL, "/vectors/icons/fa.client.pivotpro.logo.svg"),
                         new ClientClaim(ClaimKeys.FA_CLIENT_NAME, "PivotPro")
                     },
                     RedirectUris = new []{ "https://localhost:5001/signin-oidc" },
@@ -146,6 +147,7 @@ namespace FrostAura.Services.Identity.Api.Configuration
                     AllowedScopes =
                     {
                         "frostaura.scopes.default",
+                        "frostaura.scopes.api.devices",
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Email
