@@ -4,3 +4,4 @@ obj/
 **/*.user
 **/*.jwk
 **/wwwroot/lib
+/FrostAura.Services.Identity.Api/fa.id.jwt.key

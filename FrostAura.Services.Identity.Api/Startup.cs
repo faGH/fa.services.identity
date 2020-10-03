@@ -59,6 +59,7 @@ namespace FrostAura.Services.Identity.Api
 
             services.Configure<Data.Models.IdentityOptions>(identitySection);
             services.AddFrostAuraCore();
+            services.AddFrostAuraResources();
             services.AddDbContext<Data.IdentityDbContext>(config =>
             {
                 config.UseSqlServer(identityDbConnectionString);
@@ -89,7 +90,7 @@ namespace FrostAura.Services.Identity.Api
                     options.ConfigureDbContext = b => b.UseSqlServer(operationalDbConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
                     options.EnableTokenCleanup = true;
                 })
-                .AddDeveloperSigningCredential();
+                .AddFrostAuraSigningCredentials(_configuration);
             services.AddMailKit(options => 
             {
                 options.UseMailKit(_configuration.GetSection("FrostAura:Email").Get<MailKitOptions>());

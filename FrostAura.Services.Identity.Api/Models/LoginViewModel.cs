@@ -1,7 +1,6 @@
 ﻿using FrostAura.Services.Identity.Data.Enums;
 using IdentityServer4.Models;
 using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace FrostAura.Services.Identity.Models
@@ -9,18 +8,8 @@ namespace FrostAura.Services.Identity.Models
     /// <summary>
     /// Login request structure.
     /// </summary>
-    public class LoginViewModel
+    public class LoginViewModel : CredentialsModel
     {
-        /// <summary>
-        /// User email address.
-        /// </summary>
-        [Required(AllowEmptyStrings = false, ErrorMessage = "A valid email address is required.")]
-        public string Email { get; set; }
-        /// <summary>
-        /// Account password.
-        /// </summary>
-        [Required(AllowEmptyStrings = false, ErrorMessage = "A valid password is required.")]
-        public string Password { get; set; }
         /// <summary>
         /// OpenId Connect return URL.
         /// </summary>
@@ -69,7 +58,6 @@ namespace FrostAura.Services.Identity.Models
 
             return this;
         }
-
 
         /// <summary>
         /// Attempt to get the client context for a given return url.

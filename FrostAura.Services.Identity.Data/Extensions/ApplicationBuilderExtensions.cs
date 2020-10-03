@@ -1,14 +1,19 @@
 ﻿using FrostAura.Libraries.Core.Extensions.Validation;
 using FrostAura.Services.Identity.Api.Configuration;
+using FrostAura.Services.Identity.Data.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -33,9 +38,7 @@ namespace FrostAura.Services.Identity.Data.Extensions
             {
                 try
                 {
-                    var response = InitializeDatabasesAsync<TCaller>(app).GetAwaiter().GetResult();
-
-                    return response;
+                    app = InitializeDatabasesAsync<TCaller>(app).GetAwaiter().GetResult();
                 }
                 catch (Exception e)
                 {
@@ -44,7 +47,28 @@ namespace FrostAura.Services.Identity.Data.Extensions
                 }
             }
 
-            return null;
+            return app;
+        }
+
+        /// <summary>
+        /// Set signing credentials.
+        /// </summary>
+        /// <param name="app">Identity server builder.</param>
+        /// <param name="configuration">App configuration.</param>
+        /// <returns>Identity server builder.</returns>
+        public static IIdentityServerBuilder AddFrostAuraSigningCredentials(this IIdentityServerBuilder app, IConfiguration configuration)
+        {
+            var expirationInDays = configuration.GetValue<int>("FrostAura:Identity:Jwt:ExpirationDays");
+            var keyFileName = configuration.GetValue<string>("FrostAura:Identity:Jwt:KeyFilePath");
+            var rsaResource = new RsaResource(TimeSpan.FromDays(expirationInDays), keyFileName);
+            var key = rsaResource.GetKey();
+            var signingCredentials = new SigningCredentials(key, SecurityAlgorithms.RsaSha256)
+            {
+                CryptoProviderFactory = new CryptoProviderFactory { CacheSignatureProviders = false }
+            };
+
+            return app
+                .AddSigningCredential(signingCredentials);
         }
 
         /// <summary>
@@ -245,7 +269,7 @@ namespace FrostAura.Services.Identity.Data.Extensions
             {
                 var logger = serviceScope
                     .ServiceProvider
-                    .GetRequiredService<ILogger<TCaller>> ()
+                    .GetRequiredService<ILogger<TCaller>>()
                     .ThrowIfNull("Logger");
                 var identityConfiguration = serviceScope
                     .ServiceProvider
