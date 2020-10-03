@@ -56,7 +56,7 @@ NOTE: For the container to work (HTTPS) by itself, we will require a valid SSL c
                 ports:
                     - 1433:1433
             web:
-                image: "frostauraconsolidated/idenitity"
+                image: "frostauraconsolidated/identity"
                 ports:
                     - 8082:80
                     - 8083:443
