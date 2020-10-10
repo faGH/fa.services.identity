@@ -141,7 +141,7 @@ namespace FrostAura.Services.Identity.Api.Configuration
                         new ClientClaim(ClaimKeys.FA_CLIENT_CUSTOM_LOGO_SVG_URL, "/vectors/icons/fa.client.pivotpro.logo.svg"),
                         new ClientClaim(ClaimKeys.FA_CLIENT_NAME, "PivotPro")
                     },
-                    RedirectUris = new []{ "https://localhost:5001/signin-oidc", "https://pivotpro.frostaura.net/signin-oidc" },
+                    RedirectUris = new []{ "https://localhost:5001/signin-oidc", "https://pivotpro.frostaura.net/signin-oidc", "https://localhost:8083/signin-oidc" },
                     RequireConsent = false,
                     AlwaysIncludeUserClaimsInIdToken = true
                 },
@@ -165,7 +165,7 @@ namespace FrostAura.Services.Identity.Api.Configuration
                         new ClientClaim(ClaimKeys.FA_CLIENT_CUSTOM_LOGO_SVG_URL, "/vectors/icons/fa.client.northwood-crusaders.logo.svg"),
                         new ClientClaim(ClaimKeys.FA_CLIENT_NAME, "Northwood Crusaders")
                     },
-                    RedirectUris = new []{ "https://localhost:5006/signin-oidc", "https://crusaders.frostaura.net/signin-oidc" },
+                    RedirectUris = new []{ "https://localhost:5006/signin-oidc", "https://crusaders.frostaura.net/signin-oidc", "https://localhost:8083/signin-oidc" },
                     RequireConsent = false,
                     AlwaysIncludeUserClaimsInIdToken = true
                 }
