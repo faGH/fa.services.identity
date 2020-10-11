@@ -30,6 +30,10 @@ namespace FrostAura.Services.Identity.Api.Controllers
         /// Email service provider.
         /// </summary>
         private readonly IEmailService _emailService;
+        /// <summary>
+        /// Whether email verification is required.
+        /// </summary>
+        private readonly bool _enableEmailVerification = false;
 
         /// <summary>
         /// Constructor to allow for injecting variables.
@@ -77,7 +81,7 @@ namespace FrostAura.Services.Identity.Api.Controllers
             {
                 #region Confirmation & Reset
 
-                if (!user.EmailConfirmed)
+                if (_enableEmailVerification && !user.EmailConfirmed)
                 {
                     // Same for password reset.
                     var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
