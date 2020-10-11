@@ -5,7 +5,7 @@ namespace FrostAura.Services.Identity.Data.Models
     /// <summary>
     /// FrostAura application options model.
     /// </summary>
-    public class UserToSeed : IdentityUser
+    public class UserToSeed : FaUser
     {
         /// <summary>
         /// Account password.

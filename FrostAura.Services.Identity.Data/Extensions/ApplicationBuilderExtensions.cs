@@ -1,5 +1,6 @@
 ﻿using FrostAura.Libraries.Core.Extensions.Validation;
 using FrostAura.Services.Identity.Api.Configuration;
+using FrostAura.Services.Identity.Data.Models;
 using FrostAura.Services.Identity.Data.Resources;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
@@ -279,7 +280,7 @@ namespace FrostAura.Services.Identity.Data.Extensions
                     .ThrowIfNull("Value");
                 var userManager = serviceScope
                     .ServiceProvider
-                    .GetRequiredService<UserManager<IdentityUser>>()
+                    .GetRequiredService<UserManager<FaUser>>()
                     .ThrowIfNull("userManager");
 
                 if (!identityConfiguration.SeedUsers.Any())

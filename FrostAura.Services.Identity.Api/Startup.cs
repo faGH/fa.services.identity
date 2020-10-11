@@ -4,6 +4,7 @@ using FrostAura.Services.Identity.Core.Managers;
 using FrostAura.Services.Identity.Data;
 using FrostAura.Services.Identity.Data.Configuration;
 using FrostAura.Services.Identity.Data.Extensions;
+using FrostAura.Services.Identity.Data.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -73,14 +74,14 @@ namespace FrostAura.Services.Identity.Api
                 config.UseSqlServer(configDbConnectionString);
             });
             services
-                .AddIdentity<IdentityUser, IdentityRole>(config => IdentityConfig.ConfigureIdentityOptions(config, identityOptions))
+                .AddIdentity<FaUser, IdentityRole>(config => IdentityConfig.ConfigureIdentityOptions(config, identityOptions))
                 .AddClaimsPrincipalFactory<ClaimsPrincipalManager>()
                 .AddEntityFrameworkStores<IdentityDbContext>()
                 .AddDefaultTokenProviders();
             services.ConfigureApplicationCookie(config => IdentityConfig.ConfigureCookieOptions(config, identityOptions));
             services
                 .AddIdentityServer()
-                .AddAspNetIdentity<IdentityUser>()
+                .AddAspNetIdentity<FaUser>()
                 .AddConfigurationStore(options =>
                 {
                     options.ConfigureDbContext = b => b.UseSqlServer(configDbConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));

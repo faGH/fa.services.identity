@@ -1,4 +1,5 @@
 ﻿using FrostAura.Libraries.Core.Extensions.Validation;
+using FrostAura.Services.Identity.Data.Models;
 using FrostAura.Services.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,11 +17,11 @@ namespace FrostAura.Services.Identity.Api.Controllers
         /// <summary>
         /// Identity sign in manager.
         /// </summary>
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly SignInManager<FaUser> _signInManager;
         /// <summary>
         /// Identity user manager.
         /// </summary>
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<FaUser> _userManager;
         /// <summary>
         /// Config DB.
         /// </summary>
@@ -37,7 +38,7 @@ namespace FrostAura.Services.Identity.Api.Controllers
         /// <param name="userManager">Identity user manager.</param>
         /// <param name="configDb">Configuration db.</param>
         /// <param name="emailService">Email service provider.</param>
-        public AuthController(SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager, Data.ConfigurationDbContext configDb, IEmailService emailService)
+        public AuthController(SignInManager<FaUser> signInManager, UserManager<FaUser> userManager, Data.ConfigurationDbContext configDb, IEmailService emailService)
         {
             _signInManager = signInManager.ThrowIfNull(nameof(signInManager));
             _userManager = userManager.ThrowIfNull(nameof(userManager));
@@ -141,7 +142,11 @@ namespace FrostAura.Services.Identity.Api.Controllers
 
             if (!ModelState.IsValid) return View(request);
 
-            var user = new IdentityUser(request.Email);
+            var user = new FaUser
+            {
+                UserName = request.Email,
+                Email = request.Email
+            };
             var registrationResponse = await _userManager.CreateAsync(user, request.Password);
 
             if (registrationResponse.Succeeded)
