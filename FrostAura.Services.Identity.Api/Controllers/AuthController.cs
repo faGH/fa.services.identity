@@ -87,7 +87,7 @@ namespace FrostAura.Services.Identity.Api.Controllers
                     var emailConfirmationToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var redirectUrl = Url.Action(nameof(VerifyEmail), "Auth", new { userId = user.Id, token = emailConfirmationToken, returnUrl = request.ReturnUrl }, Request.Scheme);
 
-                    await _emailService.SendAsync("deanmar@outlook.com", "Confirm Account Email", $"<a href='{redirectUrl}'>Confirm Email</a>", isHtml: true);
+                    await _emailService.SendAsync(request.Email, "Confirm Account Email", $"<a href='{redirectUrl}'>Confirm Email</a>", isHtml: true);
 
                     // TODO: Replace with a view.
                     return Ok("Email verification email sent!");
