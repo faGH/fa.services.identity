@@ -73,7 +73,8 @@ namespace FrostAura.Services.Identity.Api.Configuration
                         ClaimTypes.Name,
                         ClaimTypes.Email,
                         ClaimTypes.Surname,
-                        JwtClaimTypes.Picture
+                        JwtClaimTypes.Picture,
+                        "offline_access"
                     }
                 }
             };
@@ -166,6 +167,28 @@ namespace FrostAura.Services.Identity.Api.Configuration
                         new ClientClaim(ClaimKeys.FA_CLIENT_NAME, "Northwood Crusaders")
                     },
                     RedirectUris = new []{ "https://localhost:5006/signin-oidc", "https://crusaders.frostaura.net/signin-oidc", "https://localhost:8083/signin-oidc" },
+                    RequireConsent = false,
+                    AlwaysIncludeUserClaimsInIdToken = true
+                },
+                // Auth flow FrostAura Components client to allow that app to sign in using the OpenIdConnect / OAuth2 flow.
+                new Client
+                {
+                    ClientId = "FrostAura.Clients.Components",
+                    ClientSecrets = { new Secret("FrostAuraIsAwesome".ToSha256()) },
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedScopes =
+                    {
+                        "frostaura.scopes.default",
+                        "frostaura.scopes.api.devices",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email
+                    },
+                    Claims = new List<ClientClaim>
+                    {
+                        new ClientClaim(ClaimKeys.FA_CLIENT_NAME, "FrostAura Components")
+                    },
+                    RedirectUris = new []{ "https://localhost:5006/signin-oidc", "https://components.frostaura.net/signin-oidc", "https://localhost:8083/signin-oidc" },
                     RequireConsent = false,
                     AlwaysIncludeUserClaimsInIdToken = true
                 }
