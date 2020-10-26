@@ -127,7 +127,7 @@ namespace FrostAura.Services.Identity.Api.Configuration
                 {
                     ClientId = "FrostAura.Clients.PivotPro",
                     ClientSecrets = { new Secret("P$v0tPR0iS@we40m3".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     AllowedScopes =
                     {
                         "frostaura.scopes.default",
@@ -151,7 +151,7 @@ namespace FrostAura.Services.Identity.Api.Configuration
                 {
                     ClientId = "FrostAura.Clients.NorthwoodCrusaders",
                     ClientSecrets = { new Secret("NorthwoodIsAwesome".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     AllowedScopes =
                     {
                         "frostaura.scopes.default",
@@ -175,7 +175,7 @@ namespace FrostAura.Services.Identity.Api.Configuration
                 {
                     ClientId = "FrostAura.Clients.Components",
                     ClientSecrets = { new Secret("FrostAuraIsAwesome".ToSha256()) },
-                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
                     AllowedScopes =
                     {
                         "frostaura.scopes.default",
