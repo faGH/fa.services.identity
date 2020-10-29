@@ -1,57 +1,53 @@
-﻿body > header {
-    background-color: rgb(255,255,255);
+﻿/*
+ * Overrides for variables.
+ */
+body {
+    --fa-background-primary: rgb(255,255,255);
+    --fa-color-primary: rgb(0,0,0);
+    --fa-color-negative: rgb(215,40,40);
+    --fa-logo-size: 256px;
 }
 
-body > header {
-    color: rgb(0,0,0);
-}
+    body #descriptor {
+        display: none;
+    }
 
-body #descriptor{
-    display: none;
-}
+    body #logo {
+        filter: unset;
+    }
+
+    body form .button-container > *,
+    body > article {
+        color: var(--fa-background-primary);
+        background-color: var(--fa-color-primary);
+    }
 
 /*
-* See https://codepen.io/sosuke/pen/Pjoqqp for more filter calculations.
-*/
-body #logo {
-    width: 256px;
-    height: 256px;
-    filter: unset;
-}
-
-body form > div input.input-validation-error {
-    color: rgb(215,40,40);
-    border-bottom: 2px solid rgb(215,40,40);
-}
-
-body form > div input {
-    border-bottom: 2px solid rgb(255,255,255);
-}
-
-body form > div input,
-body form > div input::placeholder {
-    color: rgb(255,255,255);
-}
-
-body form > div input:active,
-body form > div input:focus {
-    color: rgb(255,255,255);
-    border-bottom: 2px solid rgb(255,255,255);
-}
-
-body form .button-container > *,
-body > article {
-    color: rgb(255,255,255);
-    background-color: rgb(0,0,0);
-}
-
+ * Mobile-specific styling.
+ */
 @media only screen and (max-width: 700px) {
-    body footer {
-        color: rgb(255,255,255);
+    body {
+        --fa-logo-size: 156px;
     }
 
-    body #logo{
-        width: 156px;
-        height: 156px;
-    }
+        body > header {
+            background-color: var(--fa-color-primary);
+        }
+
+            body > header object {
+                padding-top: var(--fa-padding-default);
+            }
+
+        body > article {
+            justify-content: unset;
+            padding-top: var(--fa-padding-default);
+        }
+
+        body #logo {
+            filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(328deg) brightness(103%) contrast(103%);
+        }
+
+        body footer {
+            color: var(--fa-background-primary);
+        }
 }

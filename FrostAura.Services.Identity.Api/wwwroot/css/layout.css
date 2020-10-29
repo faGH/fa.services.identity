@@ -1,5 +1,12 @@
 ﻿body {
-    min-height: 100vh;
+    --fa-background-primary: rgb(0,125,125);
+    --fa-padding-default: 15px;
+    --fa-padding-small: 5px;
+    --fa-font-size: 1rem;
+    --fa-border-width: 2px;
+    --fa-color-negative: crimson;
+    --fa-color-primary: white;
+    --fa-logo-size: 96px;
     width: 100vw;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
     display: flex;
@@ -14,7 +21,8 @@ h2 {
 }
 
     body > header {
-        background-color: rgb(0,125,255);
+        background-color: var(--fa-background-primary);
+        color: var(--fa-color-primary);
     }
 
     body > * {
@@ -26,29 +34,38 @@ h2 {
     }
 
     body > header {
-        color: white;
+        color: var(--fa-color-primary);
     }
 
-        body > header > footer {
-            position: absolute;
-            bottom: 0;
-            font-size: 0.8rem;
-            padding-bottom: 15px;
-        }
+    /*
+    * See https://codepen.io/sosuke/pen/Pjoqqp for more filter calculations.
+    */
+    body #logo {
+        width: var(--fa-logo-size);
+        height: var(--fa-logo-size);
+        filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(328deg) brightness(103%) contrast(103%);
+    }
+
+    body > header > footer {
+        position: absolute;
+        bottom: 0;
+        font-size: 0.8rem;
+        padding-bottom: var(--fa-padding-default);
+    }
 
     /*
      * See https://codepen.io/sosuke/pen/Pjoqqp for more filter calculations.
      */
     body #logo {
-        width: 96px;
-        height: 96px;
+        width: var(--fa-logo-size);
+        height: var(--fa-logo-size);
         filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(328deg) brightness(103%) contrast(103%);
     }
 
     body #descriptor {
         text-align: center;
-        font-size: 1rem;
-        margin-top: 15px;
+        font-size: var(--fa-font-size);
+        margin-top: var(--fa-padding-default);
     }
 
     body form,
@@ -58,20 +75,20 @@ h2 {
 
     body form {
         flex-direction: column;
-        margin-top: 15px;
+        margin-top: var(--fa-padding-default);
         width: 70%;
         max-width: 300px;
     }
 
         body form > div {
             flex: 1;
-            padding: 5px 0;
+            padding: var(--fa-padding-small) 0;
         }
 
             body form > div input {
                 border: none;
-                border-bottom: 2px solid black;
-                padding: 5px;
+                border-bottom: var(--fa-border-width) solid var(--fa-background-primary);
+                padding: var(--fa-padding-small);
                 outline: none;
                 width: 100%;
                 background: none;
@@ -79,7 +96,7 @@ h2 {
 
                 body form > div input,
                 body form > div input::placeholder {
-                    color: black;
+                    color: var(--fa-background-primary);
                 }
 
             body form > div > span {
@@ -87,15 +104,15 @@ h2 {
             }
 
             body form > div input.input-validation-error {
-                color: crimson;
-                border-bottom: 2px solid crimson;
+                color: var(--fa-color-negative);
+                border-bottom: var(--fa-border-width) solid var(--fa-color-negative);
             }
 
             body form > div input:active,
             body form > div input:focus {
                 background: none;
-                color: rgb(0,125,255);
-                border-bottom: 2px solid rgb(0,125,255);
+                color: var(--fa-background-primary);
+                border-bottom: var(--fa-border-width) solid var(--fa-background-primary);
             }
 
         body form .button-container {
@@ -106,28 +123,35 @@ h2 {
             body form .button-container > * {
                 border: none;
                 background: none;
-                color: rgb(0,125,255);
+                color: var(--fa-background-primary);
                 padding-right: 0;
-                font-size: 1rem;
+                font-size: var(--fa-font-size);
                 text-decoration: none;
                 cursor: pointer;
             }
 
 .margin-top {
-    margin-top: 15px;
+    margin-top: var(--fa-padding-default);
 }
 
+/*
+ * Mobile-specific styling.
+ */
 @media only screen and (max-width: 700px) {
     body {
         flex-direction: column;
     }
 
-    header{
+    header {
         flex: unset;
-        padding: 15px;
+        padding: var(--fa-padding-default);
     }
 
     footer {
-        color: rgb(0,125,255);
+        color: var(--fa-background-primary);
     }
+}
+
+.secondary {
+    filter: brightness(0.7);
 }
