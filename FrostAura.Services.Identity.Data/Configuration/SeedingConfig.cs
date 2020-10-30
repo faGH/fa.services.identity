@@ -170,6 +170,30 @@ namespace FrostAura.Services.Identity.Api.Configuration
                     RequireConsent = false,
                     AlwaysIncludeUserClaimsInIdToken = true
                 },
+                // Auth flow Northwood Crusaders client to allow that app to sign in using the OpenIdConnect / OAuth2 flow.
+                new Client
+                {
+                    ClientId = "FrostAura.Clients.Events",
+                    ClientSecrets = { new Secret("EventsIsAwesome".ToSha256()) },
+                    AllowedGrantTypes = GrantTypes.CodeAndClientCredentials,
+                    AllowedScopes =
+                    {
+                        "frostaura.scopes.default",
+                        "frostaura.scopes.api.devices",
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email
+                    },
+                    Claims = new List<ClientClaim>
+                    {
+                        new ClientClaim(ClaimKeys.FA_CLIENT_CUSTOM_CSS_URL, "/css/layout.custom.northwood-crusaders.css"),
+                        new ClientClaim(ClaimKeys.FA_CLIENT_CUSTOM_LOGO_SVG_URL, "/vectors/icons/fa.client.northwood-crusaders.logo.svg"),
+                        new ClientClaim(ClaimKeys.FA_CLIENT_NAME, "Northwood Crusaders")
+                    },
+                    RedirectUris = new []{ "https://localhost:5006/signin-oidc", "https://crusaders.frostaura.net/signin-oidc", "https://localhost:8083/signin-oidc" },
+                    RequireConsent = false,
+                    AlwaysIncludeUserClaimsInIdToken = true
+                },
                 // Auth flow FrostAura Components client to allow that app to sign in using the OpenIdConnect / OAuth2 flow.
                 new Client
                 {
